@@ -1,5 +1,7 @@
 import { Router } from 'express';
 
+import UserController from './app/controllers/UserController';
+
 const routes = new Router();
 
 routes.get('/', (req, res) => {
@@ -8,5 +10,7 @@ routes.get('/', (req, res) => {
     message: `The server ir running on port ${process.env.APP_PORT}`,
   });
 });
+
+routes.get('/users', UserController.index);
 
 export default routes;
