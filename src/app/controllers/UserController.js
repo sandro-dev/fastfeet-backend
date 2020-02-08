@@ -8,7 +8,8 @@ class UserController {
   }
 
   async store(req, res) {
-    return res.json();
+    const user = await User.create(req.body);
+    return res.json({ ok: true, user });
   }
 
   async update(req, res) {
