@@ -11,6 +11,5 @@ export default async (req, res, next) => {
       .json({ error: 'Only administrator user can access' });
   }
 
-  console.log('### chackAdmin middleware ###');
   return next();
 };

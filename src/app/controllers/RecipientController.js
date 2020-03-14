@@ -65,9 +65,8 @@ class RecipientController {
   async delete(req, res) {
     const { id } = req.params;
 
-    const recipient = await Recipient.destroy({
-      where: { id },
-    });
+    const recipient = await Recipient.destroy({ where: { id } });
+
     if (!recipient) {
       return res.json({ error: 'Error on trying to delete recipient' });
     }
