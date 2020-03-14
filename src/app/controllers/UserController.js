@@ -57,6 +57,14 @@ class UserController {
       attributes: ['id', 'name', 'email', 'password_hash', 'avatar_id'],
     });
 
+    const emailExists = await User.findOne({ where: { email } });
+
+    if (emailExists && Number(emailExists.id) !== Number(id)) {
+      return res
+        .status(400)
+        .json({ error: 'Email already exists on onother user' });
+    }
+
     user.name = name;
     user.email = email;
     user.password = password;
