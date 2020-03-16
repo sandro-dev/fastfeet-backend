@@ -19,7 +19,7 @@ module.exports = {
       deliveryman_id: {
         type: Sequelize.INTEGER,
         allowNull: true,
-        references: { model: 'deliverymen', key: 'id' },
+        references: { model: 'deliveryman', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
       },
@@ -39,17 +39,18 @@ module.exports = {
 
       canceled_at: {
         type: Sequelize.DATE,
+        allowNull: true,
         defaultValue: null,
       },
 
       start_date: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
 
       end_date: {
         type: Sequelize.DATE,
-        allowNull: false,
+        allowNull: true,
       },
 
       created_at: {
