@@ -10,7 +10,7 @@ module.exports = {
 
       recipient_id: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: { model: 'recipients', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
@@ -18,7 +18,7 @@ module.exports = {
 
       deliveryman_id: {
         type: Sequelize.INTEGER,
-        allowNull: true,
+        allowNull: false,
         references: { model: 'deliveryman', key: 'id' },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL',
@@ -26,6 +26,7 @@ module.exports = {
 
       signature_id: {
         type: Sequelize.INTEGER,
+        allowNull: true,
         defaultValue: null,
         references: { model: 'signatures', key: 'id' },
         onUpdate: 'CASCADE',
