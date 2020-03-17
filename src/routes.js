@@ -4,7 +4,7 @@ import multer from 'multer';
 import multerConfig from './config/multer';
 
 import authMiddleware from './app/middlewares/auth';
-import checkAdminMiddleware from './app/middlewares/checkAdmin';
+import adminMiddleware from './app/middlewares/admin';
 
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
@@ -47,7 +47,7 @@ routes.post('/files', upload.single('file'), FileController.store);
  * The next routes will be accessed only by the administrator user
  */
 // ################################################################
-routes.use(checkAdminMiddleware);
+routes.use(adminMiddleware);
 
 // user
 routes.delete('/users/:id', UserController.delete);

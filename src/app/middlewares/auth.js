@@ -14,7 +14,7 @@ export default async (req, res, next) => {
   try {
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);
     req.userId = decoded.id;
-    console.log('@@@ auth middleware @@@');
+    req.userEmail = decoded.email;
     return next();
   } catch (err) {
     return res.status(401).json({ error: 'Invalid token' });
