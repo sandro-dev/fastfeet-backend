@@ -9,7 +9,6 @@ import adminMiddleware from './app/middlewares/admin';
 import UserController from './app/controllers/UserController';
 import SessionController from './app/controllers/SessionController';
 import FileController from './app/controllers/FileController';
-import SignatureController from './app/controllers/SignatureController';
 import RecipientController from './app/controllers/RecipientController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
@@ -40,7 +39,7 @@ routes.use(authMiddleware);
 routes.post('/users', UserController.store);
 routes.put('/users/:id', UserController.update);
 routes.post('/files', upload.single('file'), FileController.store);
-routes.post('/signatures', upload.single('file'), SignatureController.store);
+routes.post('/signatures', upload.single('file'), FileController.store);
 
 // ################################################################
 
