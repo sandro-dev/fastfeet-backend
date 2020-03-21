@@ -1,9 +1,32 @@
 import * as Yup from 'yup';
+
+import Recipient from '../models/Recipient';
+import Deliveryman from '../models/Deliveryman';
+import File from '../models/File';
 import Delivery from '../models/Delivery';
 
 class DeliveryController {
   async index(req, res) {
-    const deliveries = await Delivery.findAll();
+    const deliveries = await Delivery.findAll({
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+        },
+        {
+          model: File,
+          as: 'signature',
+          attributes: ['url', 'path'],
+        },
+      ],
+    });
+
     return res.json(deliveries);
   }
 
