@@ -12,6 +12,8 @@ import FileController from './app/controllers/FileController';
 import RecipientController from './app/controllers/RecipientController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
+import DeliveryManagerController from './app/controllers/DeliveryManagerController';
+import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 const upload = multer(multerConfig);
 
@@ -72,7 +74,44 @@ routes.post('/deliveries', DeliveryController.store);
 routes.put('/deliveries/:id', DeliveryController.update);
 routes.delete('/deliveries/:id', DeliveryController.delete);
 
-routes.get('/deliveryman/:id/deliveries', DeliveryController.index);
+// deliveryman get all pending deliveries
+routes.get('/deliveryman/:id/deliveries', DeliveryManagerController.index);
+
+// deliveryman get all finished deliveries
+routes.get(
+  '/deliveryman/:id/deliveries/finished',
+  DeliveryManagerController.show
+);
+
+// deliveryman starts a delivery
+// start_date
+routes.put(
+  '/deliveryman/:deliverymanId/delivery/:deliveryId',
+  DeliveryManagerController.update
+);
+
+// deliveryman finished a delivery
+// end_date
+routes.put(
+  '/deliveryman/:deliverymanId/delivery/:deliveryId/finished',
+  DeliveryManagerController.update
+);
+
+//
+//
+
+routes.get('/deliveries/problems', DeliveryProblemController.index);
+routes.post(
+  '/deliveries/:deliveryId/problems',
+  DeliveryProblemController.store
+);
+
+routes.put('/deliveries/problems/:problemId', DeliveryProblemController.update);
+routes.delete(
+  '/deliveries/problems/:problemId',
+  DeliveryProblemController.delete
+);
+// routes.get('/deliveries/:id/problem/:id', DeliveryProblemController.show);
 
 // ################################################################
 
