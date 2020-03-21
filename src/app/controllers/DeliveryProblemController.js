@@ -5,13 +5,19 @@ import Delivery from '../models/Delivery';
 
 class DeliveryProblemController {
   async index(req, res) {
-    const deliveries = await DeliveryProblem.findAll({});
-    return res.json(deliveries);
+    const problems = await DeliveryProblem.findAll({
+      include: [
+        {
+          model: Delivery,
+          as: 'delivery',
+        },
+      ],
+    });
+    return res.json(problems);
   }
 
   async store(req, res) {
     const schema = Yup.object().shape({
-      delivery_id: Yup.number().required(),
       description: Yup.string().required(),
     });
 
@@ -19,21 +25,24 @@ class DeliveryProblemController {
       return res.status(401).json({ error: 'Validation fails' });
     }
 
-    const { delivery_id } = req.body;
+    const { deliveryId } = req.params;
+    const { description } = req.body;
 
-    const delivery = await Delivery.findByPk(delivery_id);
+    const delivery = await Delivery.findByPk(deliveryId);
 
     if (!delivery) {
       return res.status(400).json({ error: 'This delivery do not exists' });
     }
 
-    const problem = await DeliveryProblem.create(req.body);
+    const problem = await DeliveryProblem.create({
+      delivery_id: deliveryId,
+      description,
+    });
     return res.json(problem);
   }
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      delivery_id: Yup.number(),
       description: Yup.string(),
     });
 
@@ -41,30 +50,30 @@ class DeliveryProblemController {
       return res.status(401).json({ error: 'Validation fails' });
     }
 
-    const { id } = req.params;
+    const { problemId } = req.params;
     const { description } = req.body;
 
-    const delivery = await DeliveryProblem.findByPk(id);
+    const problem = await DeliveryProblem.findByPk(problemId);
 
-    if (!delivery) {
-      return res
-        .status(400)
-        .json({ error: 'This delivery problem do not exists' });
+    if (!problem) {
+      return res.status(400).json({ error: 'This problem do not exists' });
     }
 
-    delivery.description = description;
+    problem.description = description;
 
-    if (!delivery.save()) {
-      return res.json({ error: 'Error on trying update delivery' });
+    if (!problem.save()) {
+      return res.json({ error: 'Error on trying update problem' });
     }
 
-    return res.json({ ok: true, delivery });
+    return res.json({ ok: true, problem });
   }
 
   async delete(req, res) {
-    const { id } = req.params;
+    const { problemId } = req.params;
 
-    const delivery = await DeliveryProblem.destroy({ where: { id } });
+    const delivery = await DeliveryProblem.destroy({
+      where: { id: problemId },
+    });
 
     if (!delivery) {
       return res.json({ error: 'Error on trying to delete delivery problem' });
