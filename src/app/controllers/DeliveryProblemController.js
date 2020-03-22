@@ -10,6 +10,23 @@ class DeliveryProblemController {
         {
           model: Delivery,
           as: 'delivery',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+        },
+      ],
+    });
+    return res.json(problems);
+  }
+
+  async show(req, res) {
+    const { deliveryId } = req.params;
+
+    const problems = await DeliveryProblem.findAll({
+      where: { delivery_id: deliveryId },
+      include: [
+        {
+          model: Delivery,
+          as: 'delivery',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
         },
       ],
     });
@@ -71,15 +88,35 @@ class DeliveryProblemController {
   async delete(req, res) {
     const { problemId } = req.params;
 
-    const delivery = await DeliveryProblem.destroy({
+    const problem = await DeliveryProblem.findOne({
       where: { id: problemId },
+      include: [
+        {
+          model: Delivery,
+          as: 'delivery',
+        },
+      ],
     });
 
-    if (!delivery) {
-      return res.json({ error: 'Error on trying to delete delivery problem' });
+    if (!problem) {
+      return res.json({
+        error: 'Error on trying to find the problem',
+      });
     }
 
-    return res.json({ ok: true, message: 'The delivery problem was deleted' });
+    problem.delivery.canceled_at = new Date();
+    const saved = problem.delivery.save();
+
+    if (!saved) {
+      return res.json({
+        error: 'Error on trying to cancel the delivery',
+      });
+    }
+
+    return res.json({
+      ok: true,
+      message: 'The delivery was successfully canceled',
+    });
   }
 }
 
