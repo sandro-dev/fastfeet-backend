@@ -1,0 +1,16 @@
+<strong>Olá {{deliveryman}},</strong>
+<p>Houve um cancelamento da entrega da encomenda <strong>#{{deliveryId}}</strong></p>
+<p>Segue abaixo mais informações</p>
+<p>
+  <strong>Código da encomenda:</strong> {{deliveryId}} <br />
+  <strong>Produto:</strong> {{product}} <br />
+  <strong>Destinatário:</strong> {{recipient}} <br />
+  <br />
+</p>
+<p>
+  O pedido de cancelamento foi realizado em <strong>{{cancelatedAt}}</strong>,
+  devido ao problema relatado abaixo: <br/>
+  <br />
+  {{problem}}
+  <br />
+</p>
