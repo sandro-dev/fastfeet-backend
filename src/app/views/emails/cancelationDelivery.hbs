@@ -1,0 +1,15 @@
+<strong>Olá {{deliveryman}},</strong>
+<p>Houve um cancelamento da entrega da encomenda <strong>nº {{deliveryId}}</strong>. Segue abaixo mais informações:
+</p>
+<p style="color: #555; font-weigth: lighter; font-style: italic; padding: 10px; border: 1px dotted #ccc; background-color: #eee">
+  <strong>Código da encomenda:</strong> ID#{{deliveryId}} <br />
+  <strong>Produto:</strong> {{product}} <br />
+  <strong>Destinatário:</strong> {{recipient}} <br />
+</p>
+<p>
+  O pedido de cancelamento foi realizado em <strong>{{cancelatedAt}}</strong>,
+  devido ao problema relatado abaixo: <br/>
+</p>
+<p style="line-height: 1.0; color: #555; font-weigth: lighter; font-style: italic; padding: 10px; border: 1px dotted #ccc; background-color: #eee">
+  {{problem}}
+</p>
