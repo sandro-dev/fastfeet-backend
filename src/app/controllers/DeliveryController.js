@@ -5,6 +5,10 @@ import Deliveryman from '../models/Deliveryman';
 import File from '../models/File';
 import Delivery from '../models/Delivery';
 
+// import Notification from '../schemas/Notification';
+import RegistrationMail from '../jobs/RegistrationDeliveryMail';
+import Queue from '../../lib/Queue';
+
 class DeliveryController {
   async index(req, res) {
     const deliveries = await Delivery.findAll({
@@ -25,6 +29,7 @@ class DeliveryController {
           attributes: ['url', 'path'],
         },
       ],
+      order: [['id', 'DESC']],
     });
 
     return res.json(deliveries);
@@ -47,7 +52,16 @@ class DeliveryController {
 
     const delivery = await Delivery.create(req.body);
 
+    const { deliveryman_id, recipient_id } = req.body;
+    const deliveryman = await Deliveryman.findByPk(deliveryman_id);
+    const recipient = await Recipient.findByPk(recipient_id);
+
     // TODO notification deliveryman by email
+    await Queue.add(RegistrationMail.key, {
+      deliveryman,
+      delivery,
+      recipient,
+    });
 
     return res.json(delivery);
   }

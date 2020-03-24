@@ -2,6 +2,11 @@ import * as Yup from 'yup';
 
 import DeliveryProblem from '../models/DeliveryProblem';
 import Delivery from '../models/Delivery';
+import Deliveryman from '../models/Deliveryman';
+import Recipient from '../models/Recipient';
+
+import CancelationMail from '../jobs/CancelationDeliveryMail';
+import Queue from '../../lib/Queue';
 
 class DeliveryProblemController {
   async index(req, res) {
@@ -94,6 +99,16 @@ class DeliveryProblemController {
         {
           model: Delivery,
           as: 'delivery',
+          include: [
+            {
+              model: Deliveryman,
+              as: 'deliveryman',
+            },
+            {
+              model: Recipient,
+              as: 'recipient',
+            },
+          ],
         },
       ],
     });
@@ -113,9 +128,17 @@ class DeliveryProblemController {
       });
     }
 
+    // notification to deliveryman
+    await Queue.add(CancelationMail.key, {
+      deliveryman: problem.delivery.deliveryman,
+      delivery: problem.delivery,
+      recipient: problem.delivery.recipient,
+      problem: problem.description,
+    });
+
     return res.json({
       ok: true,
-      message: 'The delivery was successfully canceled',
+      message: `The delivery #${problem.delivery_id} was successfully canceled`,
     });
   }
 }
