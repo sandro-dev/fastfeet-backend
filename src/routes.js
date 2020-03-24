@@ -100,18 +100,24 @@ routes.put(
 //
 //
 
-routes.get('/deliveries/problems', DeliveryProblemController.index);
-routes.post(
-  '/deliveries/:deliveryId/problems',
-  DeliveryProblemController.store
-);
+// all deliveries with problems
+routes.get('/delivery/problems', DeliveryProblemController.index);
 
-routes.put('/deliveries/problems/:problemId', DeliveryProblemController.update);
+// GET https://fastfeet.com/delivery/2/problems
+routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.show);
+
+// POST https://fastfeet.com/delivery/3/problems
+routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
+
+routes.put('/delivery/problems/:problemId', DeliveryProblemController.update);
+
+// DELETE https://fastfeet.com/problem/1/cancel-delivery
 routes.delete(
-  '/deliveries/problems/:problemId',
+  '/problem/:problemId/cancel-delivery',
   DeliveryProblemController.delete
 );
-// routes.get('/deliveries/:id/problem/:id', DeliveryProblemController.show);
+
+// routes.get('/delivery/:id/problem/:id', DeliveryProblemController.show);
 
 // ################################################################
 
