@@ -12,7 +12,7 @@ import FileController from './app/controllers/FileController';
 import RecipientController from './app/controllers/RecipientController';
 import DeliverymanController from './app/controllers/DeliverymanController';
 import DeliveryController from './app/controllers/DeliveryController';
-import DeliveryManagerController from './app/controllers/DeliveryManagerController';
+import DeliveryStatusController from './app/controllers/DeliveryStatusController';
 import DeliveryProblemController from './app/controllers/DeliveryProblemController';
 
 const upload = multer(multerConfig);
@@ -56,68 +56,70 @@ routes.use(adminMiddleware);
 // user
 routes.delete('/users/:id', UserController.delete);
 
-// recipients
+// ################################################################
+// Recipients
+// ################################################################
 routes.get('/recipients', RecipientController.index);
 routes.post('/recipients', RecipientController.store);
 routes.put('/recipients/:id', RecipientController.update);
 routes.delete('/recipients/:id', RecipientController.delete);
 
-// deliveryman
+// ################################################################
+// Deliveryman
+// ################################################################
 routes.get('/deliveryman', DeliverymanController.index);
 routes.post('/deliveryman', DeliverymanController.store);
 routes.put('/deliveryman/:id', DeliverymanController.update);
 routes.delete('/deliveryman/:id', DeliverymanController.delete);
 
-// delivery
+// ################################################################
+// Deliveries
+// ################################################################
 routes.get('/deliveries', DeliveryController.index);
 routes.post('/deliveries', DeliveryController.store);
 routes.put('/deliveries/:id', DeliveryController.update);
 routes.delete('/deliveries/:id', DeliveryController.delete);
 
-// deliveryman get all pending deliveries
-routes.get('/deliveryman/:id/deliveries', DeliveryManagerController.index);
+// ################################################################
+// Deliveries by Deliveryman
+// ################################################################
 
-// deliveryman get all finished deliveries
+// filter pending deliveries by deliveryman ID
+routes.get('/deliveryman/:id/deliveries', DeliveryStatusController.index);
+
+// filter finished deliveries by deliveryman ID
 routes.get(
   '/deliveryman/:id/deliveries/finished',
-  DeliveryManagerController.show
+  DeliveryStatusController.show
 );
 
-// deliveryman starts a delivery
-// start_date
+// deliveryman starts/finishes a delivery // start_date, end_sate
 routes.put(
   '/deliveryman/:deliverymanId/delivery/:deliveryId',
-  DeliveryManagerController.update
+  DeliveryStatusController.update
 );
 
-// deliveryman finished a delivery
-// end_date
-routes.put(
-  '/deliveryman/:deliverymanId/delivery/:deliveryId/finished',
-  DeliveryManagerController.update
-);
+// ################################################################
+// Delivery Problems
+// ################################################################
 
-//
-//
-
-// all deliveries with problems
+// list all deliveries problems
 routes.get('/delivery/problems', DeliveryProblemController.index);
 
-// GET https://fastfeet.com/delivery/2/problems
+// filter problems by delivery ID
 routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.show);
 
-// POST https://fastfeet.com/delivery/3/problems
+// insert a delivery problem by delivery ID
 routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
 
+// update a delivery problem by problem ID
 routes.put('/delivery/problems/:problemId', DeliveryProblemController.update);
 
-// DELETE https://fastfeet.com/problem/1/cancel-delivery
+// cancel a delivery by problem ID
 routes.delete(
   '/problem/:problemId/cancel-delivery',
   DeliveryProblemController.delete
 );
-
-// routes.get('/delivery/:id/problem/:id', DeliveryProblemController.show);
 
 // ################################################################
 

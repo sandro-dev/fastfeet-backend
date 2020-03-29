@@ -1,5 +1,14 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
+import {
+  isAfter,
+  isBefore,
+  parseISO,
+  setHours,
+  startOfHour,
+  startOfDay,
+  endOfDay,
+} from 'date-fns';
 
 import Recipient from '../models/Recipient';
 import Deliveryman from '../models/Deliveryman';
@@ -70,32 +79,76 @@ class DeliveryManagerController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      signature_id: Yup.number(),
-      canceled_at: Yup.date(),
       start_date: Yup.date(),
       end_date: Yup.date(),
+      signature_id: Yup.number(),
     });
 
+    // Validation of data
     if (!(await schema.isValid(req.body))) {
       return res.status(401).json({ error: 'Validation fails' });
     }
 
-    const { id } = req.params;
-    const { signature_id, canceled_at, start_date, end_date } = req.body;
+    // params of route
+    const { deliveryId, deliverymanId } = req.params;
 
-    const delivery = await Delivery.findOne({ where: { id } });
+    // verify if delivery exists
+    const delivery = await Delivery.findOne({ where: { id: deliveryId } });
 
     if (!delivery) {
       return res.status(400).json({ error: 'This delivery do not exists' });
     }
 
-    delivery.signature_id = signature_id;
-    delivery.canceled_at = canceled_at;
-    delivery.start_date = start_date;
-    delivery.end_date = end_date;
+    // request body data
+    const { start_date, end_date, signature_id } = req.body;
 
-    if (!delivery.save()) {
-      return res.json({ error: 'Error on trying update delivery' });
+    // start date ISO
+    const start_date_ISO = parseISO(start_date);
+
+    // deliveries by deliveryman by day
+    const deliveriesByDay = await Delivery.findAll({
+      where: {
+        deliveryman_id: deliverymanId,
+        start_date: {
+          [Op.between]: [startOfDay(start_date_ISO), endOfDay(start_date_ISO)],
+        },
+      },
+    });
+
+    if (deliveriesByDay.length >= 5) {
+      return res.status(400).json({
+        error: `You can only pick up 5 deliveries a day`,
+      });
+    }
+
+    // if is a starting up a delivery
+    if (start_date) {
+      if (
+        isBefore(start_date_ISO, setHours(startOfHour(new Date()), 8)) ||
+        isAfter(start_date_ISO, setHours(startOfHour(new Date()), 18))
+      ) {
+        return res
+          .status(400)
+          .json({ error: 'You only can take the delivery between 8h and 18h' });
+      }
+
+      delivery.start_date = start_date;
+      const save = delivery.save();
+
+      if (!save) {
+        return res.json({ error: 'Error on trying update delivery' });
+      }
+    }
+
+    // if is finishing delivery
+    if (end_date) {
+      delivery.end_date = end_date;
+      delivery.signature_id = signature_id;
+      const save = delivery.save();
+
+      if (!save) {
+        return res.json({ error: 'Error on trying update delivery' });
+      }
     }
 
     return res.json({ ok: true, delivery });

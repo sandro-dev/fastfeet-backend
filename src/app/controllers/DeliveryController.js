@@ -68,10 +68,9 @@ class DeliveryController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      signature_id: Yup.number(),
-      canceled_at: Yup.date(),
-      start_date: Yup.date(),
-      end_date: Yup.date(),
+      recipient_id: Yup.number(),
+      deliveryman_id: Yup.number(),
+      product: Yup.string(),
     });
 
     if (!(await schema.isValid(req.body))) {
@@ -79,7 +78,7 @@ class DeliveryController {
     }
 
     const { id } = req.params;
-    const { signature_id, canceled_at, start_date, end_date } = req.body;
+    const { recipient_id, deliveryman_id, product } = req.body;
 
     const delivery = await Delivery.findOne({ where: { id } });
 
@@ -87,12 +86,12 @@ class DeliveryController {
       return res.status(400).json({ error: 'This delivery do not exists' });
     }
 
-    delivery.signature_id = signature_id;
-    delivery.canceled_at = canceled_at;
-    delivery.start_date = start_date;
-    delivery.end_date = end_date;
+    delivery.recipient_id = recipient_id;
+    delivery.deliveryman_id = deliveryman_id;
+    delivery.product = product;
 
-    if (!delivery.save()) {
+    const saved = delivery.save();
+    if (!saved) {
       return res.json({ error: 'Error on trying update delivery' });
     }
 
