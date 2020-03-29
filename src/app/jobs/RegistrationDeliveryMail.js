@@ -12,7 +12,7 @@ class RegistrationDeliveryMail {
 
     await Mail.sendMail({
       to: `${deliveryman.name} <${deliveryman.email}>`,
-      subject: `Uma nova encomenda disponível para entrega - ID #${delivery.id}`,
+      subject: `Uma nova encomenda disponível para entrega | Pedido nº ${delivery.id}`,
       template: 'registration',
       context: {
         deliveryman: deliveryman.name,
