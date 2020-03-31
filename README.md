@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img alt="FastFeet" height="215" title="FastFeet" src=".github/logo.svg" />
+  <img alt="FastFeet" height="215" title="FastFeet" src=".github/logo.png" />
 </h1>
 
 
@@ -10,11 +10,11 @@
 <strong>Links dos desafios:</strong>
 
 - Backend:
-  [Etapa 1](https://github.com/sandro-dev/fastfeet-backend)
-  [Etapa 2](https://github.com/sandro-dev/fastfeet-backend)
+  [Etapa 1](https://github.com/sandro-dev/fastfeet-backend) |  [Etapa 2](https://github.com/sandro-dev/fastfeet-backend)
 - Frontend:
   [Etapa 3](https://github.com/sandro-dev/fastfeet-frontend)
-- [Etapa 4]()
+- Mobile:
+[Etapa 4]((https://github.com/sandro-dev/fastfeet-mobile))
 
 ## :rocket: Tecnologias
 
@@ -46,8 +46,8 @@ Faça um clone desse repositório.
 - Execute o comando `cp .env.example .env` e preencha o arquivo `.env` com `suas` variáveis ambiente;
 - Execute o comando `docker-compose up -d` para montar o ambiente;
 - Execute o comando `yarn sequelize db:migrate` para executar as migrations;
-- Para executar somente a migration de `admin-user` rode o comando `yarn sequelize db:seed --seed 20200212180839-admin-user.js`
+
 
 ---
 
-Desenvolvido por [sandro-dev](https://www.linkedin.com/in/eliasgcf/)
+Desenvolvido por [sandro-dev](https://www.linkedin.com/in/sandrossantos/)
