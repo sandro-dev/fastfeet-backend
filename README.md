@@ -1,20 +1,12 @@
 <h1 align="center">
-  <img alt="FastFeet" height="215" title="FastFeet" src=".github/logo.png" />
+  <img alt="Fastfeet" title="Fastfeet" src=".github/logo.png" width="300px" />
 </h1>
 
 
 <p align="center">
  <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
- <a href="#computer-instalação-execução-e-desenvolvimento">Instalação </a>&nbsp;&nbsp;&nbsp;</p>
+ <a href="#computer-instalação">Instalação </a>&nbsp;&nbsp;&nbsp;</p>
 
-<strong>Links dos desafios:</strong>
-
-- Backend:
-  [Etapa 1](https://github.com/sandro-dev/fastfeet-backend) |  [Etapa 2](https://github.com/sandro-dev/fastfeet-backend)
-- Frontend:
-  [Etapa 3](https://github.com/sandro-dev/fastfeet-frontend)
-- Mobile:
-[Etapa 4]((https://github.com/sandro-dev/fastfeet-mobile))
 
 ## :rocket: Tecnologias
 
