@@ -1,16 +1,15 @@
-<h1 align="center">
-  <img alt="Fastfeet" title="Fastfeet" src=".github/logo.png" width="300px" />
-</h1>
+  ![logo](.github/logo.png)
 
-# REST API of Fastfeet app
+# Fastfeet REST API
+Esse é o Desafio do Bootcamp GoStack 10 da Rocketseat. Esse código corresponde ao backend do app Fastfeet
 
-<blockquote align="center">“Para quem fica melhor a cada dia, ficar pronto é utopia”!</blockquote>
+[](https://img.shields.io/badge/made%20by-Sandro%20Santos-blue)
+[](https://img.shields.io/github/license/sandro-dev/fastfeet-backend?color=blue&label=license&logo=MIT)
+[](https://img.shields.io/github/repo-size/sandro-dev/fastfeet-backend)
 
+> “A sabedoria é a coisa principal; adquire pois a sabedoria, emprega tudo o que possuis na aquisição de entendimento.” (Provérbios 4:7)”
 
-<p align="center">
- <a href="#rocket-tecnologias">Tecnologias</a>&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;
- <a href="#computer-instalação">Instalação </a>&nbsp;&nbsp;&nbsp;</p>
-
+[Tecnologias](#rocket-tecnologias) | [Instalação](#computer-instalação)
 
 ## :rocket: Tecnologias
 
@@ -45,7 +44,7 @@ Faça um clone desse repositório.
 - Execute o comando `docker-compose up -d` para montar o ambiente;
 - Execute o comando `yarn sequelize db:migrate` para executar as migrations;
 
-
 ---
-
 Desenvolvido por [Sandro Santos](https://www.linkedin.com/in/sandrossantos/) | https://github.com/sandro-dev
+
+
