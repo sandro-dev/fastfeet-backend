@@ -12,11 +12,13 @@ import Queue from '../../lib/Queue';
 
 class DeliveryController {
   async index(req, res) {
-    const { q = '' } = req.query;
+    const { q = '', page = 1, per_page = 10 } = req.query;
 
     const searchParams = {
       product: { [Op.iLike]: `%${q}%` },
     };
+
+    const totalDeliveries = await Delivery.findAll({ where: searchParams });
 
     const deliveries = await Delivery.findAll({
       where: searchParams,
@@ -37,10 +39,20 @@ class DeliveryController {
           attributes: ['url', 'path'],
         },
       ],
-      order: [['id', 'DESC']],
+      order: [['id', 'ASC']],
+      limit: per_page,
+      offset: (page - 1) * per_page,
     });
 
-    return res.json(deliveries);
+    return res.json({
+      page: Number(page),
+      total_results: totalDeliveries.length,
+      total_page: Math.ceil(totalDeliveries.length / per_page),
+      per_page: Number(per_page),
+      results: deliveries,
+    });
+
+    // return res.json(deliveries);
   }
 
   async store(req, res) {
