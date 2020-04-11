@@ -4,7 +4,7 @@ import Deliveryman from '../models/Deliveryman';
 
 class DeliverymanController {
   async index(req, res) {
-    const { q = '' } = req.query;
+    const { q = '', page = 1, per_page = 10 } = req.query;
 
     const searchParams = {
       name: {
@@ -12,10 +12,22 @@ class DeliverymanController {
       },
     };
 
+    const total = await Deliveryman.findAll();
+
     const deliveryman = await Deliveryman.findAll({
       where: searchParams,
+      order: [['id', 'ASC']],
+      limit: per_page,
+      offset: (page - 1) * per_page,
     });
-    return res.json(deliveryman);
+
+    return res.json({
+      page: Number(page),
+      total_results: total.length,
+      total_page: Math.ceil(total.length / per_page),
+      per_page: Number(per_page),
+      results: deliveryman,
+    });
   }
 
   async store(req, res) {
