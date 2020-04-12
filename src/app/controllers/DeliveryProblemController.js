@@ -10,16 +10,24 @@ import Queue from '../../lib/Queue';
 
 class DeliveryProblemController {
   async index(req, res) {
+    const { page = 1, per_page = 10 } = req.query;
+
+    const total = await DeliveryProblem.findAll();
+
     const problems = await DeliveryProblem.findAll({
-      include: [
-        {
-          model: Delivery,
-          as: 'delivery',
-          attributes: { exclude: ['createdAt', 'updatedAt'] },
-        },
-      ],
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+      order: [['id', 'ASC']],
+      limit: per_page,
+      offset: (page - 1) * per_page,
     });
-    return res.json(problems);
+
+    return res.json({
+      page: Number(page),
+      total_results: total.length,
+      total_page: Math.ceil(total.length / per_page),
+      per_page: Number(per_page),
+      results: problems,
+    });
   }
 
   async show(req, res) {
