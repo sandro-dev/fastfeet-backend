@@ -67,10 +67,10 @@ routes.delete('/recipients/:id', RecipientController.delete);
 // ################################################################
 // Deliveryman
 // ################################################################
-routes.get('/deliveryman', DeliverymanController.index);
-routes.post('/deliveryman', DeliverymanController.store);
-routes.put('/deliveryman/:id', DeliverymanController.update);
-routes.delete('/deliveryman/:id', DeliverymanController.delete);
+routes.get('/deliverymen', DeliverymanController.index);
+routes.post('/deliverymen', DeliverymanController.store);
+routes.put('/deliverymen/:id', DeliverymanController.update);
+routes.delete('/deliverymen/:id', DeliverymanController.delete);
 
 // ################################################################
 // Deliveries
@@ -85,17 +85,17 @@ routes.delete('/deliveries/:id', DeliveryController.delete);
 // ################################################################
 
 // filter pending deliveries by deliveryman ID
-routes.get('/deliveryman/:id/deliveries', DeliveryStatusController.index);
+routes.get('/deliverymen/:id/deliveries', DeliveryStatusController.index);
 
 // filter finished deliveries by deliveryman ID
 routes.get(
-  '/deliveryman/:id/deliveries/finished',
+  '/deliverymen/:id/deliveries/finished',
   DeliveryStatusController.show
 );
 
 // deliveryman starts/finishes a delivery // start_date, end_sate
 routes.put(
-  '/deliveryman/:deliverymanId/delivery/:deliveryId',
+  '/deliverymen/:deliverymanId/delivery/:deliveryId',
   DeliveryStatusController.update
 );
 
