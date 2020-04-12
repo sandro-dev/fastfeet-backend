@@ -95,7 +95,7 @@ routes.get(
 
 // deliveryman starts/finishes a delivery // start_date, end_sate
 routes.put(
-  '/deliverymen/:deliverymanId/delivery/:deliveryId',
+  '/deliverymen/:deliverymanId/deliveries/:deliveryId',
   DeliveryStatusController.update
 );
 
@@ -104,16 +104,19 @@ routes.put(
 // ################################################################
 
 // list all deliveries problems
-routes.get('/delivery/problems', DeliveryProblemController.index);
+routes.get('/deliveries/problems', DeliveryProblemController.index);
 
 // filter problems by delivery ID
-routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.show);
+routes.get('/deliveries/:deliveryId/problems', DeliveryProblemController.show);
 
 // insert a delivery problem by delivery ID
-routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
+routes.post(
+  '/deliveries/:deliveryId/problems',
+  DeliveryProblemController.store
+);
 
 // update a delivery problem by problem ID
-routes.put('/delivery/problems/:problemId', DeliveryProblemController.update);
+routes.put('/deliveries/problems/:problemId', DeliveryProblemController.update);
 
 // cancel a delivery by problem ID
 routes.delete(
