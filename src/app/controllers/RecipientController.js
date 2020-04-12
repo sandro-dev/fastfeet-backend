@@ -4,17 +4,31 @@ import Recipient from '../models/Recipient';
 
 class RecipientController {
   async index(req, res) {
-    const { q = '' } = req.query;
+    const { q = '', page = 1, per_page = 10 } = req.query;
 
     const searchParams = {
       name: { [Op.iLike]: `%${q}%` },
     };
 
-    const recipients = await Recipient.findAll({
+    const total = await Recipient.findAll({
       where: searchParams,
     });
 
-    return res.json(recipients);
+    const recipients = await Recipient.findAll({
+      where: searchParams,
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+      order: [['id', 'ASC']],
+      limit: per_page,
+      offset: (page - 1) * per_page,
+    });
+
+    return res.json({
+      page: Number(page),
+      total_results: total.length,
+      total_page: Math.ceil(total.length / per_page),
+      per_page: Number(per_page),
+      results: recipients,
+    });
   }
 
   async store(req, res) {
