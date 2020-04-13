@@ -106,19 +106,16 @@ routes.put(
 // ################################################################
 
 // list all deliveries problems
-routes.get('/deliveries/problems', DeliveryProblemController.index);
+routes.get('/delivery/problems', DeliveryProblemController.index);
 
 // filter problems by delivery ID
-routes.get('/deliveries/:deliveryId/problems', DeliveryProblemController.show);
+routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.show);
 
 // insert a delivery problem by delivery ID
-routes.post(
-  '/deliveries/:deliveryId/problems',
-  DeliveryProblemController.store
-);
+routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
 
 // update a delivery problem by problem ID
-routes.put('/deliveries/problems/:problemId', DeliveryProblemController.update);
+routes.put('/delivery/problems/:problemId', DeliveryProblemController.update);
 
 // cancel a delivery by problem ID
 routes.delete(
