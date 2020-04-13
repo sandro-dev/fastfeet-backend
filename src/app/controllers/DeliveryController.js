@@ -62,6 +62,29 @@ class DeliveryController {
     // return res.json(deliveries);
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const delivery = await Delivery.findAll({
+      where: { id },
+      include: [
+        {
+          model: Recipient,
+          as: 'recipient',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+        },
+        {
+          model: Deliveryman,
+          as: 'deliveryman',
+          attributes: { exclude: ['createdAt', 'updatedAt'] },
+        },
+      ],
+      order: [['id', 'ASC']],
+    });
+
+    return res.json(delivery);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       recipient_id: Yup.number().required(),
