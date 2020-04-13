@@ -40,6 +40,25 @@ class DeliverymanController {
     });
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+
+    const deliveryman = await Deliveryman.findOne({
+      where: { id },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['url', 'path'],
+        },
+      ],
+      order: [['id', 'ASC']],
+    });
+
+    return res.json(deliveryman);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
