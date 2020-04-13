@@ -65,7 +65,7 @@ class DeliveryController {
   async show(req, res) {
     const { id } = req.params;
 
-    const delivery = await Delivery.findAll({
+    const delivery = await Delivery.findOne({
       where: { id },
       include: [
         {
