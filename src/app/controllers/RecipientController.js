@@ -77,20 +77,25 @@ class RecipientController {
     }
 
     const { id } = req.params;
+    const recipient = await Recipient.findOne({ where: { id } });
 
-    const recipient = await Recipient.findOne({
-      where: { id },
-    });
+    const {
+      name,
+      street,
+      number,
+      complement,
+      city,
+      state,
+      postcode,
+    } = req.body;
 
-    const { street, number, complement, city, state, postcode } = req.body;
-
+    recipient.name = name;
     recipient.street = street;
     recipient.number = number;
     recipient.complement = complement;
     recipient.city = city;
     recipient.state = state;
     recipient.postcode = postcode;
-
     recipient.save();
 
     return res.json({ ok: true, recipient });
