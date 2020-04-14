@@ -31,6 +31,16 @@ class RecipientController {
     });
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+    const recipient = await Recipient.findOne({
+      where: { id },
+      attributes: { exclude: ['createdAt', 'updatedAt'] },
+    });
+
+    return res.json(recipient);
+  }
+
   async store(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string().required(),
