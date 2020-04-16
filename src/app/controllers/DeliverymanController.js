@@ -18,7 +18,6 @@ class DeliverymanController {
 
     const deliveryman = await Deliveryman.findAll({
       where: searchParams,
-      attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: [
         {
           model: File,
@@ -45,12 +44,10 @@ class DeliverymanController {
 
     const deliveryman = await Deliveryman.findOne({
       where: { id },
-      attributes: { exclude: ['createdAt', 'updatedAt'] },
       include: [
         {
           model: File,
           as: 'avatar',
-          attributes: ['url', 'path'],
         },
       ],
       order: [['id', 'ASC']],
