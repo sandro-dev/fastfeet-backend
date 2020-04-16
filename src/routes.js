@@ -30,6 +30,32 @@ routes.post('/sessions', SessionController.store);
 routes.get('/users', UserController.index);
 
 // ################################################################
+// @mobile
+// Deliverymen routes to mobile
+// ################################################################
+
+routes.get('/deliverymen/:id', DeliverymanController.show);
+
+// ################################################################
+// Deliveries by Deliveryman
+// ################################################################
+
+// filter pending deliveries by deliveryman ID
+routes.get('/deliverymen/:id/deliveries', DeliveryStatusController.index);
+
+// filter finished deliveries by deliveryman ID
+routes.get(
+  '/deliverymen/:id/deliveries/finished',
+  DeliveryStatusController.show
+);
+
+// deliveryman starts/finishes a delivery // start_date, end_sate
+routes.put(
+  '/deliverymen/:deliverymanId/deliveries/:deliveryId',
+  DeliveryStatusController.update
+);
+
+// ################################################################
 /**
  * @Authenticated users
  * The next routes will be accessed only by authenticated users
@@ -69,7 +95,6 @@ routes.delete('/recipients/:id', RecipientController.delete);
 // Deliveryman
 // ################################################################
 routes.get('/deliverymen', DeliverymanController.index);
-routes.get('/deliverymen/:id', DeliverymanController.show);
 routes.post('/deliverymen', DeliverymanController.store);
 routes.put('/deliverymen/:id', DeliverymanController.update);
 routes.delete('/deliverymen/:id', DeliverymanController.delete);
@@ -82,25 +107,6 @@ routes.get('/deliveries/:id', DeliveryController.show);
 routes.post('/deliveries', DeliveryController.store);
 routes.put('/deliveries/:id', DeliveryController.update);
 routes.delete('/deliveries/:id', DeliveryController.delete);
-
-// ################################################################
-// Deliveries by Deliveryman
-// ################################################################
-
-// filter pending deliveries by deliveryman ID
-routes.get('/deliverymen/:id/deliveries', DeliveryStatusController.index);
-
-// filter finished deliveries by deliveryman ID
-routes.get(
-  '/deliverymen/:id/deliveries/finished',
-  DeliveryStatusController.show
-);
-
-// deliveryman starts/finishes a delivery // start_date, end_sate
-routes.put(
-  '/deliverymen/:deliverymanId/deliveries/:deliveryId',
-  DeliveryStatusController.update
-);
 
 // ################################################################
 // Delivery Problems
