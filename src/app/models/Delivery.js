@@ -31,6 +31,12 @@ class Delivery extends Model {
             return status;
           },
         },
+        cancelable: {
+          type: Sequelize.VIRTUAL,
+          get() {
+            return !this.start_date;
+          },
+        },
       },
       {
         sequelize,
