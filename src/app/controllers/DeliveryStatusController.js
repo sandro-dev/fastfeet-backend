@@ -18,6 +18,15 @@ import Delivery from '../models/Delivery';
 class DeliveryManagerController {
   async index(req, res) {
     const { id } = req.params;
+    const { page = 1, per_page = 10 } = req.query;
+
+    const total = await Delivery.findAll({
+      where: {
+        deliveryman_id: id,
+        canceled_at: null,
+        end_date: null,
+      },
+    });
 
     const deliveries = await Delivery.findAll({
       where: {
@@ -42,13 +51,30 @@ class DeliveryManagerController {
           attributes: ['url', 'path'],
         },
       ],
+      order: [['id', 'ASC']],
+      limit: per_page,
+      offset: (page - 1) * per_page,
     });
 
-    return res.json(deliveries);
+    return res.json({
+      page: Number(page),
+      total_results: total.length,
+      total_page: Math.ceil(total.length / per_page),
+      per_page: Number(per_page),
+      results: deliveries,
+    });
   }
 
   async show(req, res) {
     const { id } = req.params;
+    const { page = 1, per_page = 10 } = req.query;
+
+    const total = await Delivery.findAll({
+      where: {
+        deliveryman_id: id,
+        end_date: { [Op.not]: null },
+      },
+    });
 
     const deliveries = await Delivery.findAll({
       where: {
@@ -72,9 +98,18 @@ class DeliveryManagerController {
           attributes: ['url', 'path'],
         },
       ],
+      order: [['id', 'ASC']],
+      limit: per_page,
+      offset: (page - 1) * per_page,
     });
 
-    return res.json(deliveries);
+    return res.json({
+      page: Number(page),
+      total_results: total.length,
+      total_page: Math.ceil(total.length / per_page),
+      per_page: Number(per_page),
+      results: deliveries,
+    });
   }
 
   async update(req, res) {
