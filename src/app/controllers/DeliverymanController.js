@@ -14,7 +14,7 @@ class DeliverymanController {
       },
     };
 
-    const total = await Deliveryman.findAll();
+    const total = await Deliveryman.findAll({ where: searchParams });
 
     const deliveryman = await Deliveryman.findAll({
       where: searchParams,
