@@ -35,7 +35,8 @@ class DeliveryProblemController {
     const { page = 1, per_page = 10 } = req.query;
 
     const total = await DeliveryProblem.findAll({
-      where: { delivery_id: deliveryId });
+      where: { delivery_id: deliveryId },
+    });
 
     const problems = await DeliveryProblem.findAll({
       where: { delivery_id: deliveryId },

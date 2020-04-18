@@ -57,6 +57,22 @@ routes.put(
 );
 
 // ################################################################
+// Delivery Problems
+// ################################################################
+
+// list all deliveries problems
+routes.get('/delivery/problems', DeliveryProblemController.index);
+
+// filter problems by delivery ID
+routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.show);
+
+// insert a delivery problem by delivery ID
+routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
+
+// update a delivery problem by problem ID
+routes.put('/delivery/problems/:problemId', DeliveryProblemController.update);
+
+// ################################################################
 /**
  * @Authenticated users
  * The next routes will be accessed only by authenticated users
@@ -110,18 +126,6 @@ routes.delete('/deliveries/:id', DeliveryController.delete);
 // ################################################################
 // Delivery Problems
 // ################################################################
-
-// list all deliveries problems
-routes.get('/delivery/problems', DeliveryProblemController.index);
-
-// filter problems by delivery ID
-routes.get('/delivery/:deliveryId/problems', DeliveryProblemController.show);
-
-// insert a delivery problem by delivery ID
-routes.post('/delivery/:deliveryId/problems', DeliveryProblemController.store);
-
-// update a delivery problem by problem ID
-routes.put('/delivery/problems/:problemId', DeliveryProblemController.update);
 
 // cancel a delivery by problem ID
 routes.delete(
