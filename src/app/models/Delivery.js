@@ -34,7 +34,13 @@ class Delivery extends Model {
         cancelable: {
           type: Sequelize.VIRTUAL,
           get() {
-            return !this.start_date;
+            let status = true;
+
+            if (this.start_date && this.end_date) {
+              status = false;
+            }
+
+            return status;
           },
         },
       },
