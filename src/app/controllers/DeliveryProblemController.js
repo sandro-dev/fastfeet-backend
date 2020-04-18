@@ -32,6 +32,10 @@ class DeliveryProblemController {
 
   async show(req, res) {
     const { deliveryId } = req.params;
+    const { page = 1, per_page = 10 } = req.query;
+
+    const total = await DeliveryProblem.findAll({
+      where: { delivery_id: deliveryId });
 
     const problems = await DeliveryProblem.findAll({
       where: { delivery_id: deliveryId },
@@ -43,7 +47,14 @@ class DeliveryProblemController {
         },
       ],
     });
-    return res.json(problems);
+
+    return res.json({
+      page: Number(page),
+      total_results: total.length,
+      total_page: Math.ceil(total.length / per_page),
+      per_page: Number(per_page),
+      results: problems,
+    });
   }
 
   async store(req, res) {
