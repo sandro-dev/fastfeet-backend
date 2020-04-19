@@ -139,25 +139,29 @@ class DeliveryManagerController {
 
     // start date ISO
     const start_date_ISO = parseISO(start_date);
-
-    // deliveries by deliveryman by day
-    const deliveriesByDay = await Delivery.findAll({
-      where: {
-        deliveryman_id: deliverymanId,
-        start_date: {
-          [Op.between]: [startOfDay(start_date_ISO), endOfDay(start_date_ISO)],
-        },
-      },
-    });
-
-    if (deliveriesByDay.length >= 5) {
-      return res.status(400).json({
-        error: `You can only pick up 5 deliveries a day`,
-      });
-    }
+    const end_date_ISO = parseISO(end_date);
 
     // if is a starting up a delivery
     if (start_date) {
+      // deliveries by deliveryman by day
+      const deliveriesByDay = await Delivery.findAll({
+        where: {
+          deliveryman_id: deliverymanId,
+          start_date: {
+            [Op.between]: [
+              startOfDay(start_date_ISO),
+              endOfDay(start_date_ISO),
+            ],
+          },
+        },
+      });
+
+      if (deliveriesByDay.length >= 5) {
+        return res.status(400).json({
+          error: `You can only pick up 5 deliveries a day`,
+        });
+      }
+
       if (
         isBefore(start_date_ISO, setHours(startOfHour(new Date()), 8)) ||
         isAfter(start_date_ISO, setHours(startOfHour(new Date()), 18))
